@@ -135,10 +135,10 @@
             defaultDate: "+1w",
             numberOfMonths: 1,
             onSelect: function (selectedDate) {
-                var giorno_dopo = movePickerDate(selectedDate, 1);
-                $("#to").datepicker("option", "minDate", giorno_dopo);
-                aggiustaInizio();
-                aggiustaFine();
+                var day_after = movePickerDate(selectedDate, 1);
+                $("#to").datepicker("option", "minDate", day_after);
+                adjustFrom();
+                adjustTo();
             }
         });
 
@@ -146,8 +146,8 @@
             defaultDate: "+1w",
             numberOfMonths: 1,
             onSelect: function (selectedDate) {
-                aggiustaInizio();
-                aggiustaFine();
+                adjustFrom();
+                adjustTo();
             }
         });
 
@@ -162,14 +162,14 @@
         $('#to').datepicker("option", "dateFormat", 'dd/mm/yy');
 
 
-//date inizio e fine
-        aggiustaFine();
-        aggiustaInizio();
+        //date inizio e fine
+        adjustTo();
+        adjustFrom();
     });
 
 
 
-    function aggiustaInizio()
+    function adjustFrom()
     {
         var datai = $("#from").val();
 
@@ -180,7 +180,7 @@
         $('#aa').val(datai[2]);
     }
 
-    function aggiustaFine() {
+    function adjustTo() {
         var dataf = $("#to").val();
 
         dataf = dataf.split('/');
@@ -191,11 +191,11 @@
     }
 
     function movePickerDate(selectedDate, amount) {
-        var a = selectedDate.split("/");
-        var data = new Date(parseInt(a[2], 10), (parseInt(a[1], 10) - 1), parseInt(a[0], 10), 12, 0, 0);
-        var giorno_data = AddDays(data, amount);
+        var dateArr = selectedDate.split("/");
+        var dateObj = new Date(parseInt(dateArr[2], 10), (parseInt(dateArr[1], 10) - 1), parseInt(dateArr[0], 10), 12, 0, 0);
+        var adjustedDate = AddDays(dateObj, amount);
 
-        return giorno_data.getDate() + '/' + (giorno_data.getMonth() + 1) + '/' + giorno_data.getFullYear();
+        return adjustedDate.getDate() + '/' + (adjustedDate.getMonth() + 1) + '/' + adjustedDate.getFullYear();
     }
 
 
@@ -204,19 +204,19 @@
     {
         var tzOff = date.getTimezoneOffset() * 60 * 1000;
 
-        var t = date.getTime();
-        t += (1000 * 60 * 60 * 24) * amount;
-        var d = new Date();
-        d.setTime(t);
-        var tzOff2 = d.getTimezoneOffset() * 60 * 1000;
+        var time = date.getTime();
+        time += (1000 * 60 * 60 * 24) * amount;
+        var date = new Date();
+        date.setTime(time);
+        var tzOff2 = date.getTimezoneOffset() * 60 * 1000;
 
         if (tzOff !== tzOff2)
         {
             var diff = tzOff2 - tzOff;
-            t += diff;
-            d.setTime(t);
+            time += diff;
+            date.setTime(time);
         }
 
-        return d;
+        return date;
     }
 </script>
