@@ -130,8 +130,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-// aggiornamento calendari
+        // aggiornamento calendari
         $("#from").datepicker({
+            dateFormat: "mm/dd/yy",
             defaultDate: "+1w",
             numberOfMonths: 1,
             onSelect: function (selectedDate) {
@@ -143,6 +144,7 @@
         });
 
         $("#to").datepicker({
+            dateFormat: "mm/dd/yy",
             defaultDate: "+1w",
             numberOfMonths: 1,
             onSelect: function (selectedDate) {
@@ -152,15 +154,11 @@
         });
 
         var now = new Date();
-        var today = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+        var today = (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getFullYear();
         $('#from').val(today);
-        $('#from').datepicker("option", "minDate", today);
-        $('#from').datepicker("option", "dateFormat", 'dd/mm/yy');
 
         var tomorrow = movePickerDate(today, 1);
         $('#to').val(tomorrow);
-        $('#to').datepicker("option", "dateFormat", 'dd/mm/yy');
-
 
         //date inizio e fine
         adjustTo();
@@ -175,8 +173,8 @@
 
         datai = datai.split('/');
 
-        $('#gg').val(datai[0]);
-        $('#mm').val(datai[1]);
+        $('#mm').val(datai[0]);
+        $('#gg').val(datai[1]);
         $('#aa').val(datai[2]);
     }
 
@@ -185,17 +183,17 @@
 
         dataf = dataf.split('/');
 
-        $('#ggf').val(dataf[0]);
-        $('#mmf').val(dataf[1]);
+        $('#mmf').val(dataf[0]);
+        $('#ggf').val(dataf[1]);
         $('#aaf').val(dataf[2]);
     }
 
     function movePickerDate(selectedDate, amount) {
         var dateArr = selectedDate.split("/");
-        var dateObj = new Date(parseInt(dateArr[2], 10), (parseInt(dateArr[1], 10) - 1), parseInt(dateArr[0], 10), 12, 0, 0);
+        var dateObj = new Date(parseInt(dateArr[2], 10), parseInt(dateArr[0], 10) - 1, parseInt(dateArr[1], 10), 12, 0, 0);
         var adjustedDate = AddDays(dateObj, amount);
 
-        return adjustedDate.getDate() + '/' + (adjustedDate.getMonth() + 1) + '/' + adjustedDate.getFullYear();
+        return (adjustedDate.getMonth() + 1) + '/' + adjustedDate.getDate() + '/' + adjustedDate.getFullYear();
     }
 
 
